@@ -3,55 +3,141 @@
  * Banner component styles.
  * BEM: .banner
  *
- * The .layout-banner wrapper in page.html.twig ensures the banner
- * spans the full viewport width. .banner itself contains the
- * inner content centred within the container max-width.
+ * Layout order (top → bottom):
+ *   1. .banner__title
+ *   2. .banner__search  (input + button)
+ *   3. .banner__subtitle
  */
 
+/* --- Wrapper — full-width strip --- */
 .layout-banner {
   width: 100%;
-  background-color: var(--color-primary);
+  position: relative;
 }
 
+/* --- Banner container --- */
 .banner {
+  position: relative;
   width: 100%;
-  min-height: 320px;
+  min-height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding-block: var(--spacing-xl);
   padding-inline: var(--container-padding);
-  background-color: var(--color-primary);
-  color: var(--color-white);
 
-  /* Optional: subtle gradient overlay */
-  background-image: linear-gradient(
-    135deg,
-    rgba(233, 69, 96, 0.15) 0%,
-    transparent 60%
-  );
+  /* Fallback background when no image is set */
+  background-color: var(--color-primary);
+
+  /* When a background image URL is set via inline style,
+     these properties control how it renders */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: var(--color-white);
 }
 
+/* --- Dark overlay (ensures text is readable over any image) --- */
+.banner__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(15, 15, 30, 0.62);
+  pointer-events: none;
+}
+
+/* --- Inner content (sits above the overlay) --- */
 .banner__inner {
-  max-width: 700px;
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+/* --- Title --- */
+.banner__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--color-white);
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* --- Search form --- */
+.banner__search {
   width: 100%;
 }
 
-.banner__title {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  margin-block-end: var(--spacing-md);
-  color: var(--color-white);
-  line-height: 1.2;
+.banner__search-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 520px;
+  margin-inline: auto;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
 
+.banner__search-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  background-color: var(--color-white);
+  min-width: 0;
+}
+
+.banner__search-input::placeholder {
+  color: #999;
+  font-size: 0.9375rem;
+}
+
+.banner__search-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-white);
+  background-color: var(--color-accent);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition-base);
+  flex-shrink: 0;
+}
+
+.banner__search-btn:hover {
+  background-color: #c73652;
+}
+
+/* --- Subtitle (below search) --- */
 .banner__subtitle {
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 60ch;
-  margin-inline: auto;
-  margin-block-end: 0;
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+  .banner__search-group {
+    flex-direction: column;
+    border-radius: var(--border-radius);
+    overflow: visible;
+    box-shadow: none;
+    gap: var(--spacing-sm);
+  }
+
+  .banner__search-input,
+  .banner__search-btn {
+    border-radius: var(--border-radius);
+    width: 100%;
+  }
 }

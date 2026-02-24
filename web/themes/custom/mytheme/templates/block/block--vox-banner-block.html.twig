@@ -4,21 +4,49 @@
  * Template for the Vox Banner Block (plugin ID: vox_banner_block).
  *
  * Variables from BannerBlock::build():
- * - content.banner_title: Rendered markup with the banner title.
- * - content.banner_subtitle: Rendered markup with the banner subtitle.
+ * - content.banner_title:    The banner heading text.
+ * - content.banner_subtitle: The subtitle text shown below the search form.
+ * - content.banner_image:    Optional URL to the background image.
+ *
+ * Layout (matches wireframe):
+ *   1. Title (h1)
+ *   2. Search form (text input + button)
+ *   3. Subtitle (p)
  *
  * BEM class: .banner
  *
  * @see \Drupal\vox_blocks\Plugin\Block\BannerBlock
  */
 #}
-<div{{ attributes.addClass('banner') }}>
+{% set bg_image = content.banner_image|render|trim %}
+<div{{ attributes.addClass('banner') }}{% if bg_image %} style="background-image: url('{{ bg_image }}');"{% endif %}>
+  <div class="banner__overlay"></div>
   <div class="banner__inner">
+
     {% if content.banner_title %}
       <h1 class="banner__title">{{ content.banner_title }}</h1>
     {% endif %}
+
+    <form class="banner__search" action="/search/node" method="get" role="search">
+      <div class="banner__search-group">
+        <label for="banner-search-input" class="visually-hidden">{{ 'Search'|t }}</label>
+        <input
+          id="banner-search-input"
+          class="banner__search-input"
+          type="search"
+          name="keys"
+          placeholder="{{ 'Example: Website, Mobile App'|t }}"
+          autocomplete="off"
+        />
+        <button class="banner__search-btn" type="submit">
+          {{ 'Search'|t }}
+        </button>
+      </div>
+    </form>
+
     {% if content.banner_subtitle %}
       <p class="banner__subtitle">{{ content.banner_subtitle }}</p>
     {% endif %}
+
   </div>
 </div>
