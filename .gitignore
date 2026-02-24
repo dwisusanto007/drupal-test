@@ -54,3 +54,5 @@ db.sql
 .env
 .env.local
 
+# Claude Code project notes (local only, not for version control)
+.claude-notes.md
