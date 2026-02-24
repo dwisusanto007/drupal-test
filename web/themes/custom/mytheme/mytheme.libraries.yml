@@ -1,0 +1,29 @@
+global:
+  version: VERSION
+  css:
+    base:
+      css/base/reset.css: {}
+    layout:
+      css/layout/layout.css: {}
+    component:
+      css/components/banner.css: {}
+      css/components/card.css: {}
+  js:
+    js/mytheme.js: {}
+  dependencies:
+    - core/normalize
+    - core/drupal
+
+homepage:
+  version: VERSION
+  css:
+    layout:
+      css/layout/layout--homepage.css: {}
+    component:
+      css/components/card-grid.css: {}
+
+detail:
+  version: VERSION
+  css:
+    layout:
+      css/layout/layout--detail.css: {}

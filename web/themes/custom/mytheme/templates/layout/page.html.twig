@@ -1,0 +1,122 @@
+{#
+/**
+ * @file
+ * Mytheme override to display a single page.
+ *
+ * Regions defined in mytheme.info.yml:
+ * - page.page_top / page.page_bottom: Required by Drupal core.
+ * - page.header: Site branding.
+ * - page.primary_menu: Main navigation menu.
+ * - page.banner: Full-width banner block (all pages).
+ * - page.highlighted: Status/system messages.
+ * - page.help: Admin help text.
+ * - page.homepage_event: Latest event card (front page only).
+ * - page.homepage_news: Latest news cards (front page only).
+ * - page.content: Main page content.
+ * - page.sidebar: Related content sidebar (detail pages).
+ * - page.footer: Footer.
+ *
+ * @see template_preprocess_page()
+ * @see mytheme_preprocess_page()
+ */
+#}
+{{ page.page_top }}
+
+<div class="layout-container">
+
+  {# ===== HEADER ===== #}
+  {% if page.header|render|trim is not empty or page.primary_menu|render|trim is not empty %}
+    <header class="layout-header" role="banner">
+      <div class="layout-header__inner container">
+        {% if page.header|render|trim is not empty %}
+          <div class="layout-header__branding">
+            {{ page.header }}
+          </div>
+        {% endif %}
+        {% if page.primary_menu|render|trim is not empty %}
+          <nav class="layout-header__nav" role="navigation" aria-label="{{ 'Main navigation'|t }}">
+            {{ page.primary_menu }}
+          </nav>
+        {% endif %}
+      </div>
+    </header>
+  {% endif %}
+
+  {# ===== STATUS MESSAGES ===== #}
+  {% if page.highlighted|render|trim is not empty %}
+    <div class="layout-highlighted container">
+      {{ page.highlighted }}
+    </div>
+  {% endif %}
+
+  {# ===== FULL-WIDTH BANNER — shown on all pages ===== #}
+  {% if page.banner|render|trim is not empty %}
+    <div class="layout-banner">
+      {{ page.banner }}
+    </div>
+  {% endif %}
+
+  {# ===== HELP ===== #}
+  {% if page.help|render|trim is not empty %}
+    <div class="layout-help container">
+      {{ page.help }}
+    </div>
+  {% endif %}
+
+  {# ===== MAIN CONTENT AREA ===== #}
+  <main class="layout-main" role="main">
+    <a id="main-content" tabindex="-1"></a>
+
+    {# --- HOMEPAGE CARDS (3-column grid) ---
+       Populated only when the front-page visibility blocks are active.
+       On detail pages these regions are empty and this section is skipped. #}
+    {% if page.homepage_event|render|trim is not empty or page.homepage_news|render|trim is not empty %}
+      <section class="layout-homepage-cards container" aria-label="{{ 'Featured content'|t }}">
+
+        {% if page.homepage_event|render|trim is not empty %}
+          <div class="layout-homepage-cards__event">
+            {{ page.homepage_event }}
+          </div>
+        {% endif %}
+
+        {% if page.homepage_news|render|trim is not empty %}
+          <div class="layout-homepage-cards__news">
+            {{ page.homepage_news }}
+          </div>
+        {% endif %}
+
+      </section>
+    {% endif %}
+
+    {# --- STANDARD / DETAIL PAGE CONTENT --- #}
+    {% if page.content|render|trim is not empty or page.sidebar|render|trim is not empty %}
+      <div class="layout-content-area container{% if page.sidebar|render|trim is not empty %} layout-content-area--with-sidebar{% endif %}">
+
+        <div class="layout-content-area__main">
+          {{ page.content }}
+        </div>
+
+        {% if page.sidebar|render|trim is not empty %}
+          <aside class="layout-content-area__sidebar" role="complementary"
+                 aria-label="{{ 'Related content'|t }}">
+            {{ page.sidebar }}
+          </aside>
+        {% endif %}
+
+      </div>
+    {% endif %}
+
+  </main>
+
+  {# ===== FOOTER ===== #}
+  {% if page.footer|render|trim is not empty %}
+    <footer class="layout-footer" role="contentinfo">
+      <div class="layout-footer__inner container">
+        {{ page.footer }}
+      </div>
+    </footer>
+  {% endif %}
+
+</div>{# /.layout-container #}
+
+{{ page.page_bottom }}

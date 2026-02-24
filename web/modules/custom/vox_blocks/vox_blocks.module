@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * @file
+ * Provides custom block plugins for the Vox theme.
+ */
+
+declare(strict_types=1);

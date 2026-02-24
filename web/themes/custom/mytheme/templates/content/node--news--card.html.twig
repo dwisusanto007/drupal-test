@@ -1,0 +1,67 @@
+{#
+/**
+ * @file
+ * Template for a News node in 'card' view mode.
+ *
+ * Available variables:
+ * - node: The node entity.
+ * - label: The title of the node.
+ * - content: All node fields renderable array.
+ *   - content.field_news_image
+ *   - content.field_category
+ *   - content.field_publish_date
+ *   - content.field_news_description
+ * - attributes: HTML attributes for the <article> element.
+ * - title_attributes: HTML attributes for the title element.
+ * - card_url: The node URL (added by mytheme_preprocess_node()).
+ *
+ * BEM class: .card .card--news
+ *
+ * @see mytheme_preprocess_node()
+ */
+#}
+{%
+  set classes = [
+    'card',
+    'card--news',
+    not node.isPublished() ? 'card--unpublished',
+  ]
+%}
+<article{{ attributes.addClass(classes) }}>
+
+  {% if content.field_news_image %}
+    <div class="card__image">
+      <a href="{{ card_url }}" tabindex="-1" aria-hidden="true">
+        {{ content.field_news_image }}
+      </a>
+    </div>
+  {% endif %}
+
+  <div class="card__body">
+
+    {% if content.field_category %}
+      <div class="card__category">{{ content.field_category }}</div>
+    {% endif %}
+
+    {{ title_prefix }}
+    <h3{{ title_attributes.addClass('card__title') }}>
+      <a href="{{ card_url }}">{{ label }}</a>
+    </h3>
+    {{ title_suffix }}
+
+    {% if content.field_publish_date %}
+      <div class="card__date">{{ content.field_publish_date }}</div>
+    {% endif %}
+
+    {% if content.field_news_description %}
+      <div class="card__description">{{ content.field_news_description }}</div>
+    {% endif %}
+
+    <a href="{{ card_url }}" class="card__read-more">
+      {{ 'Read more'|t }}
+      <span class="visually-hidden">{{ 'about'|t }} {{ label }}</span>
+    </a>
+
+  </div>
+
+</article>

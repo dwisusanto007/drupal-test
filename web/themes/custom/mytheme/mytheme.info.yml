@@ -1,0 +1,35 @@
+name: My Theme
+type: theme
+description: 'Custom theme for the Vox project with Banner, Homepage, and Detail page layouts.'
+package: Custom
+core_version_requirement: ^11
+base theme: stable9
+libraries:
+  - mytheme/global
+
+regions:
+  # Required by Drupal core
+  page_top: 'Page Top'
+  page_bottom: 'Page Bottom'
+
+  # Navigation
+  header: 'Header'
+  primary_menu: 'Primary Menu'
+
+  # Full-width banner — shared across all page types
+  banner: 'Banner'
+
+  # System messages
+  highlighted: 'Highlighted'
+  help: 'Help'
+
+  # Homepage-specific card regions
+  homepage_event: 'Homepage Event Card'
+  homepage_news: 'Homepage News Cards'
+
+  # Main content and right sidebar (for detail pages)
+  content: 'Content'
+  sidebar: 'Sidebar (Related Content)'
+
+  # Footer
+  footer: 'Footer'

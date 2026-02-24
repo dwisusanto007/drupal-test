@@ -14,9 +14,6 @@
 # Ignore test results
 /bin/
 /tmp/
-/web/modules/custom/
-/web/profiles/custom/
-/web/themes/custom/
 /web/sites/simpletest/
 /web/sites/*/files/
 /web/sites/*/private/

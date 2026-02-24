@@ -1,0 +1,66 @@
+{#
+/**
+ * @file
+ * Template for an Event node in 'full' view mode (detail page).
+ *
+ * The 2-column layout (main content + sidebar) is handled by
+ * page.html.twig via .layout-content-area--with-sidebar.
+ * This template renders only the main content (left column).
+ *
+ * Available variables:
+ * - node: The node entity.
+ * - label: The node title.
+ * - content: All node fields renderable array.
+ *   - content.field_event_image
+ *   - content.field_event_category
+ *   - content.field_event_date
+ *   - content.field_event_description
+ * - attributes, title_attributes, content_attributes.
+ *
+ * BEM class: .node .node--event .node--view-mode-full
+ *
+ * @see template_preprocess_node()
+ * @see mytheme_preprocess_node()
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--event',
+    'node--view-mode-full',
+    not node.isPublished() ? 'node--unpublished',
+  ]
+%}
+<article{{ attributes.addClass(classes) }}>
+
+  {{ title_prefix }}
+  <h1{{ title_attributes.addClass('node__title') }}>{{ label }}</h1>
+  {{ title_suffix }}
+
+  {% if content.field_event_image %}
+    <div class="node__hero-image">
+      {{ content.field_event_image }}
+    </div>
+  {% endif %}
+
+  <div class="node__meta">
+    {% if content.field_event_category %}
+      <span class="node__category">{{ content.field_event_category }}</span>
+    {% endif %}
+    {% if content.field_event_date %}
+      <span class="node__date">{{ content.field_event_date }}</span>
+    {% endif %}
+  </div>
+
+  <div{{ content_attributes.addClass('node__content') }}>
+    {{ content.field_event_description }}
+    {# Render any remaining fields not already output above #}
+    {{ content|without(
+      'field_event_image',
+      'field_event_category',
+      'field_event_date',
+      'field_event_description'
+    ) }}
+  </div>
+
+</article>

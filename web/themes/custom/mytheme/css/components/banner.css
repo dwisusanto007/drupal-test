@@ -1,0 +1,57 @@
+/**
+ * @file
+ * Banner component styles.
+ * BEM: .banner
+ *
+ * The .layout-banner wrapper in page.html.twig ensures the banner
+ * spans the full viewport width. .banner itself contains the
+ * inner content centred within the container max-width.
+ */
+
+.layout-banner {
+  width: 100%;
+  background-color: var(--color-primary);
+}
+
+.banner {
+  width: 100%;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-block: var(--spacing-xl);
+  padding-inline: var(--container-padding);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+
+  /* Optional: subtle gradient overlay */
+  background-image: linear-gradient(
+    135deg,
+    rgba(233, 69, 96, 0.15) 0%,
+    transparent 60%
+  );
+}
+
+.banner__inner {
+  max-width: 700px;
+  width: 100%;
+}
+
+.banner__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-block-end: var(--spacing-md);
+  color: var(--color-white);
+  line-height: 1.2;
+}
+
+.banner__subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 60ch;
+  margin-inline: auto;
+  margin-block-end: 0;
+}

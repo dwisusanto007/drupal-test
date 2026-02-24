@@ -1,0 +1,100 @@
+/**
+ * @file
+ * Detail page layout: 2-column content + sidebar.
+ *
+ * Visual structure (matching wireframe):
+ *   [ Title + Detail Content (2/3) ] [ Related Event/News cards (1/3) ]
+ *
+ * Loaded only on node detail pages via mytheme/detail library.
+ */
+
+.layout-content-area {
+  padding-block: var(--spacing-xl);
+}
+
+.layout-content-area--with-sidebar {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas: "main sidebar";
+  gap: var(--spacing-xl);
+  align-items: start;
+}
+
+.layout-content-area__main {
+  grid-area: main;
+  min-width: 0; /* Prevent grid blowout */
+}
+
+.layout-content-area__sidebar {
+  grid-area: sidebar;
+  min-width: 0;
+}
+
+/* --- Sidebar card styling (related content cards) --- */
+.layout-content-area__sidebar .card {
+  margin-block-end: var(--spacing-lg);
+}
+
+.layout-content-area__sidebar .card:last-child {
+  margin-block-end: 0;
+}
+
+/* --- Node detail content typography --- */
+.node__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin-block-end: var(--spacing-md);
+  color: var(--color-primary);
+}
+
+.node__hero-image {
+  margin-block-end: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.node__hero-image img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+.node__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-block-end: var(--spacing-lg);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.node__category {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.node__content {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text);
+}
+
+.node__content p {
+  margin-block-end: var(--spacing-md);
+}
+
+/* Responsive: stack to single column on tablet */
+@media (max-width: 768px) {
+  .layout-content-area--with-sidebar {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "main"
+      "sidebar";
+  }
+}

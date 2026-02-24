@@ -1,0 +1,36 @@
+/**
+ * @file
+ * Card section / grid wrapper styles.
+ * BEM: .card-section, .card-section--event, .card-section--news
+ *
+ * These classes are applied by the block templates:
+ * - block--vox-homepage-event-block.html.twig
+ * - block--vox-homepage-news-block.html.twig
+ *
+ * Loaded only on the front page via mytheme/homepage library.
+ */
+
+/* --- Section label (e.g. "Event", "News") --- */
+.card-section__label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-accent);
+  border-block-end: 2px solid var(--color-accent);
+  padding-block-end: var(--spacing-sm);
+  margin-block-end: var(--spacing-md);
+  margin-block-start: 0;
+}
+
+/* --- Event section --- */
+.card-section--event .card-section__content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- News section — inner grid handled by layout--homepage.css --- */
+.card-section--news {
+  display: flex;
+  flex-direction: column;
+}

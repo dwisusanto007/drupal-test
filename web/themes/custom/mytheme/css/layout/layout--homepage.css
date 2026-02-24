@@ -1,0 +1,54 @@
+/**
+ * @file
+ * Homepage layout: 3-column card grid.
+ *
+ * Visual structure (matching wireframe):
+ *   [ Event (Card 1) ] [ News Card 2 ] [ News Card 3 ]
+ *   ^-- layout-homepage-cards__event   ^-- layout-homepage-cards__news
+ *
+ * The __news area itself is a 2-column sub-grid.
+ * Loaded only on the front page via mytheme/homepage library.
+ */
+
+.layout-homepage-cards {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas: "event news";
+  gap: var(--spacing-lg);
+  padding-block: var(--spacing-xl);
+  align-items: start;
+}
+
+/* Column 1: Event card */
+.layout-homepage-cards__event {
+  grid-area: event;
+}
+
+/* Columns 2-3: News cards sub-grid */
+.layout-homepage-cards__news {
+  grid-area: news;
+}
+
+/* The .card-section--news wrapper's .card-section__cards is a 2-col grid */
+.card-section--news .card-section__cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+}
+
+/* Responsive: tablet — stack event above news */
+@media (max-width: 900px) {
+  .layout-homepage-cards {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "event"
+      "news";
+  }
+}
+
+/* Responsive: mobile — news cards stack too */
+@media (max-width: 600px) {
+  .card-section--news .card-section__cards {
+    grid-template-columns: 1fr;
+  }
+}

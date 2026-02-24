@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Template for the Vox Banner Block (plugin ID: vox_banner_block).
+ *
+ * Variables from BannerBlock::build():
+ * - content.banner_title: Rendered markup with the banner title.
+ * - content.banner_subtitle: Rendered markup with the banner subtitle.
+ *
+ * BEM class: .banner
+ *
+ * @see \Drupal\vox_blocks\Plugin\Block\BannerBlock
+ */
+#}
+<div{{ attributes.addClass('banner') }}>
+  <div class="banner__inner">
+    {% if content.banner_title %}
+      <h1 class="banner__title">{{ content.banner_title }}</h1>
+    {% endif %}
+    {% if content.banner_subtitle %}
+      <p class="banner__subtitle">{{ content.banner_subtitle }}</p>
+    {% endif %}
+  </div>
+</div>

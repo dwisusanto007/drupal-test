@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Template for the Vox Homepage Event Block (plugin ID: vox_homepage_event_block).
+ *
+ * Variables from HomepageEventBlock::build():
+ * - content.event_card: The latest event node rendered in 'card' view mode.
+ *
+ * Variables from mytheme_preprocess_block():
+ * - section_label: The string 'Event' for labeling this card section.
+ *
+ * BEM class: .card-section .card-section--event
+ *
+ * @see \Drupal\vox_blocks\Plugin\Block\HomepageEventBlock
+ */
+#}
+<div{{ attributes.addClass('card-section', 'card-section--event') }}>
+  {% if section_label %}
+    <h2 class="card-section__label">{{ section_label }}</h2>
+  {% endif %}
+  <div class="card-section__content">
+    {{ content.event_card }}
+  </div>
+</div>

@@ -1,0 +1,9 @@
+name: 'Vox Blocks'
+type: module
+description: 'Provides custom block plugins for the Banner, Homepage Event card, and Homepage News cards.'
+package: Custom
+core_version_requirement: ^11
+dependencies:
+  - drupal:block
+  - drupal:node
+  - drupal:image

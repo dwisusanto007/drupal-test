@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * Template for the Vox Homepage News Block (plugin ID: vox_homepage_news_block).
+ *
+ * Variables from HomepageNewsBlock::build():
+ * - content.news_cards: Array of the 2 latest news nodes in 'card' view mode.
+ *
+ * Variables from mytheme_preprocess_block():
+ * - section_label: The string 'News' for labeling this card section.
+ *
+ * BEM class: .card-section .card-section--news
+ *
+ * @see \Drupal\vox_blocks\Plugin\Block\HomepageNewsBlock
+ */
+#}
+<div{{ attributes.addClass('card-section', 'card-section--news') }}>
+  {% if section_label %}
+    <h2 class="card-section__label">{{ section_label }}</h2>
+  {% endif %}
+  <div class="card-section__cards">
+    {% for card in content.news_cards %}
+      <div class="card-section__card-wrapper">
+        {{ card }}
+      </div>
+    {% endfor %}
+  </div>
+</div>
