@@ -39,14 +39,44 @@
   margin-block-end: 0;
 }
 
+/* Back-to-home navigation link */
+.node__back-link {
+  display: inline-block;
+  margin-block-end: var(--spacing-md);
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.node__back-link:hover {
+  text-decoration: underline;
+}
+
 /* --- Node detail content typography --- */
 .node__title {
   font-family: var(--font-heading);
   font-size: clamp(1.75rem, 4vw, 2.5rem);
   margin-block-end: var(--spacing-md);
   color: var(--color-primary);
+  line-height: 1.2;
 }
 
+/* Horizontal rule under the title */
+.node__divider {
+  border: none;
+  border-block-start: 1px solid var(--color-border);
+  margin-block: var(--spacing-md);
+}
+
+/* Date below the divider */
+.node__date {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  margin-block-end: var(--spacing-lg);
+}
+
+/* Hero image */
 .node__hero-image {
   margin-block-end: var(--spacing-lg);
   border-radius: var(--border-radius);
@@ -57,28 +87,10 @@
   width: 100%;
   max-height: 480px;
   object-fit: cover;
+  display: block;
 }
 
-.node__meta {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  margin-block-end: var(--spacing-lg);
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-}
-
-.node__category {
-  background-color: var(--color-accent);
-  color: var(--color-white);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--border-radius-sm);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
+/* Body text */
 .node__content {
   font-size: 1rem;
   line-height: 1.75;
@@ -87,6 +99,32 @@
 
 .node__content p {
   margin-block-end: var(--spacing-md);
+}
+
+/* --- Related content sidebar --- */
+.related-content__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-block-start: 0;
+  margin-block-end: var(--spacing-md);
+  padding-block-end: var(--spacing-sm);
+  border-block-end: 2px solid var(--color-primary);
+}
+
+.related-content__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Slightly smaller card images in sidebar */
+.related-content__item .card__image img {
+  height: 160px;
+}
+
+.related-content__item .card__image--placeholder {
+  height: 160px;
 }
 
 /* Responsive: stack to single column on tablet */

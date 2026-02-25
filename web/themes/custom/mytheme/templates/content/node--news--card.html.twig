@@ -3,21 +3,24 @@
  * @file
  * Template for a News node in 'card' view mode.
  *
- * Available variables:
+ * Card layout (matches wireframe):
+ *   1. Image (full width)
+ *   2. Date  — raw value, formatted via Twig date filter (no field label)
+ *   3. Intro description — stripped of HTML, truncated (no field label)
+ *   4. "Detail" button (bottom right)
+ *
+ * Raw field access is used for date and description so Drupal field
+ * labels are never rendered.
+ *
+ * Variables:
  * - node: The node entity.
- * - label: The title of the node.
- * - content: All node fields renderable array.
- *   - content.field_news_image
- *   - content.field_category
- *   - content.field_publish_date
- *   - content.field_news_description
- * - attributes: HTML attributes for the <article> element.
- * - title_attributes: HTML attributes for the title element.
- * - card_url: The node URL (added by mytheme_preprocess_node()).
+ * - label: Node title.
+ * - content.field_news_image: Rendered image field.
+ * - node.field_publish_date.value: Date string (Y-m-d).
+ * - node.field_news_description.value: Raw HTML description.
+ * - card_url: Added by mytheme_preprocess_node().
  *
- * BEM class: .card .card--news
- *
- * @see mytheme_preprocess_node()
+ * BEM: .card .card--news
  */
 #}
 {%
@@ -29,38 +32,52 @@
 %}
 <article{{ attributes.addClass(classes) }}>
 
-  {% if content.field_news_image %}
+  {# --- Image — rendered directly via file_url() to bypass formatter --- #}
+  {% if node.field_news_image.entity %}
     <div class="card__image">
       <a href="{{ card_url }}" tabindex="-1" aria-hidden="true">
-        {{ content.field_news_image }}
+        <img
+          src="{{ file_url(node.field_news_image.entity.uri.value) }}"
+          alt="{{ node.field_news_image.alt ?: label }}"
+          loading="lazy"
+        />
       </a>
     </div>
+  {% else %}
+    <div class="card__image card__image--placeholder" aria-hidden="true"></div>
   {% endif %}
 
   <div class="card__body">
 
-    {% if content.field_category %}
-      <div class="card__category">{{ content.field_category }}</div>
+    {# --- Date (formatted, no label) --- #}
+    {% if node.field_publish_date.value %}
+      <div class="card__date">
+        {{ node.field_publish_date.value|date('j F Y') }}
+      </div>
     {% endif %}
 
+    {# --- Title --- #}
     {{ title_prefix }}
     <h3{{ title_attributes.addClass('card__title') }}>
       <a href="{{ card_url }}">{{ label }}</a>
     </h3>
     {{ title_suffix }}
 
-    {% if content.field_publish_date %}
-      <div class="card__date">{{ content.field_publish_date }}</div>
+    {# --- Description intro (plain text, no label) --- #}
+    {% if node.field_news_description.value %}
+      {% set plain = node.field_news_description.value|striptags %}
+      <div class="card__description">
+        {{ plain|slice(0, 180) }}{% if plain|length > 180 %}…{% endif %}
+      </div>
     {% endif %}
 
-    {% if content.field_news_description %}
-      <div class="card__description">{{ content.field_news_description }}</div>
-    {% endif %}
-
-    <a href="{{ card_url }}" class="card__read-more">
-      {{ 'Read more'|t }}
-      <span class="visually-hidden">{{ 'about'|t }} {{ label }}</span>
-    </a>
+    {# --- Detail button --- #}
+    <div class="card__footer">
+      <a href="{{ card_url }}" class="card__btn">
+        {{ 'Detail'|t }}
+        <span class="visually-hidden"> {{ 'of'|t }} {{ label }}</span>
+      </a>
+    </div>
 
   </div>
 

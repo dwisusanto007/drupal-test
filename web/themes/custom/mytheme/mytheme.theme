@@ -11,17 +11,12 @@ use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_preprocess_HOOK() for page.html.twig.
- *
- * Attaches page-specific CSS libraries based on whether the current
- * page is the front page (homepage layout) or a node detail page.
  */
 function mytheme_preprocess_page(array &$variables): void {
-  // Attach the homepage library on the front page.
   if ($variables['is_front']) {
     $variables['#attached']['library'][] = 'mytheme/homepage';
   }
 
-  // Attach the detail layout library when viewing a node canonical page.
   if (!empty($variables['node'])) {
     $node = $variables['node'];
     if ($node instanceof NodeInterface && \Drupal::routeMatch()->getRouteName() === 'entity.node.canonical') {
@@ -32,25 +27,40 @@ function mytheme_preprocess_page(array &$variables): void {
 
 /**
  * Implements hook_preprocess_HOOK() for node.html.twig.
- *
- * Adds BEM classes and passes computed variables to node templates
- * for Event and News content types.
  */
 function mytheme_preprocess_node(array &$variables): void {
   /** @var \Drupal\node\NodeInterface $node */
   $node = $variables['node'];
   $view_mode = $variables['view_mode'];
 
-  // For the card view mode, pass the URL for the "Read more" link.
+  // Pass URL for card templates.
   if ($view_mode === 'card') {
     $variables['card_url'] = $node->toUrl()->toString();
+  }
+
+  // Hide all field labels in full view mode — labels are output directly
+  // in the Twig template using formatted raw values instead.
+  if ($view_mode === 'full') {
+    $hide_labels = [
+      'field_news_image',
+      'field_news_description',
+      'field_publish_date',
+      'field_category',
+      'field_event_image',
+      'field_event_description',
+      'field_event_date',
+      'field_event_category',
+    ];
+    foreach ($hide_labels as $field) {
+      if (isset($variables['content'][$field])) {
+        $variables['content'][$field]['#label_display'] = 'hidden';
+      }
+    }
   }
 }
 
 /**
  * Implements hook_preprocess_HOOK() for block.html.twig.
- *
- * Passes section label variables to homepage card block templates.
  */
 function mytheme_preprocess_block(array &$variables): void {
   $plugin_id = $variables['plugin_id'];
@@ -66,14 +76,10 @@ function mytheme_preprocess_block(array &$variables): void {
 
 /**
  * Implements hook_theme_suggestions_HOOK_alter() for block templates.
- *
- * Adds template suggestions based on block plugin ID so the theme
- * can provide per-block Twig overrides (e.g. block--vox-banner-block.html.twig).
  */
 function mytheme_theme_suggestions_block_alter(array &$suggestions, array $variables): void {
   if (!empty($variables['elements']['#plugin_id'])) {
     $plugin_id = $variables['elements']['#plugin_id'];
-    // Convert dashes to underscores for the suggestion machine name.
     $suggestions[] = 'block__' . str_replace('-', '_', $plugin_id);
   }
 }

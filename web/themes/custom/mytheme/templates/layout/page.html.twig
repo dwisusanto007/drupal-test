@@ -88,8 +88,9 @@
       </section>
     {% endif %}
 
-    {# --- STANDARD / DETAIL PAGE CONTENT --- #}
-    {% if page.content|render|trim is not empty or page.sidebar|render|trim is not empty %}
+    {# --- STANDARD / DETAIL PAGE CONTENT ---
+       Skipped on the front page — homepage cards handle that layout. #}
+    {% if not is_front and (page.content|render|trim is not empty or page.sidebar|render|trim is not empty) %}
       <div class="layout-content-area container{% if page.sidebar|render|trim is not empty %} layout-content-area--with-sidebar{% endif %}">
 
         <div class="layout-content-area__main">

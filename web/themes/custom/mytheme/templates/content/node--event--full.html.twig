@@ -3,24 +3,17 @@
  * @file
  * Template for an Event node in 'full' view mode (detail page).
  *
- * The 2-column layout (main content + sidebar) is handled by
- * page.html.twig via .layout-content-area--with-sidebar.
- * This template renders only the main content (left column).
+ * Layout (matches wireframe — left column of 2-col detail layout):
+ *   1. h1 title
+ *   2. <hr> divider
+ *   3. Date — formatted via Twig, no field label (start date of range)
+ *   4. Hero image — label hidden via mytheme_preprocess_node()
+ *   5. Body content — label hidden via mytheme_preprocess_node()
  *
- * Available variables:
- * - node: The node entity.
- * - label: The node title.
- * - content: All node fields renderable array.
- *   - content.field_event_image
- *   - content.field_event_category
- *   - content.field_event_date
- *   - content.field_event_description
- * - attributes, title_attributes, content_attributes.
+ * The right column sidebar (Related Event/News) is provided by
+ * RelatedContentBlock placed in the 'sidebar' region.
  *
- * BEM class: .node .node--event .node--view-mode-full
- *
- * @see template_preprocess_node()
- * @see mytheme_preprocess_node()
+ * BEM: .node .node--event .node--view-mode-full
  */
 #}
 {%
@@ -33,28 +26,35 @@
 %}
 <article{{ attributes.addClass(classes) }}>
 
+  <a href="{{ path('<front>') }}" class="node__back-link">← {{ 'Back to Home'|t }}</a>
+
   {{ title_prefix }}
   <h1{{ title_attributes.addClass('node__title') }}>{{ label }}</h1>
   {{ title_suffix }}
 
-  {% if content.field_event_image %}
-    <div class="node__hero-image">
-      {{ content.field_event_image }}
+  <hr class="node__divider">
+
+  {# Date — start date of range, formatted, no label #}
+  {% if node.field_event_date.value %}
+    <div class="node__date">
+      {{ node.field_event_date.value|date('j F Y') }}
     </div>
   {% endif %}
 
-  <div class="node__meta">
-    {% if content.field_event_category %}
-      <span class="node__category">{{ content.field_event_category }}</span>
-    {% endif %}
-    {% if content.field_event_date %}
-      <span class="node__date">{{ content.field_event_date }}</span>
-    {% endif %}
-  </div>
+  {# Hero image — rendered directly via file_url() to bypass formatter #}
+  {% if node.field_event_image.entity %}
+    <div class="node__hero-image">
+      <img
+        src="{{ file_url(node.field_event_image.entity.uri.value) }}"
+        alt="{{ node.field_event_image.alt ?: label }}"
+        loading="lazy"
+      />
+    </div>
+  {% endif %}
 
+  {# Body — label suppressed via preprocess #}
   <div{{ content_attributes.addClass('node__content') }}>
     {{ content.field_event_description }}
-    {# Render any remaining fields not already output above #}
     {{ content|without(
       'field_event_image',
       'field_event_category',

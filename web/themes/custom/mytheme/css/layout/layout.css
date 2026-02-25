@@ -130,3 +130,8 @@
   white-space: nowrap;
   border: 0;
 }
+
+
+.hidden {
+  display: none;
+}

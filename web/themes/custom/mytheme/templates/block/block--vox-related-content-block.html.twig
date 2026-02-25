@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Template for the Vox Related Event/News block (plugin ID: vox_related_content_block).
+ *
+ * Variables from RelatedContentBlock::build():
+ * - content.cards: Array of rendered nodes in 'card' view mode
+ *   (index 0 = latest Event, index 1 = latest News).
+ *
+ * BEM: .related-content
+ *
+ * @see \Drupal\vox_blocks\Plugin\Block\RelatedContentBlock
+ */
+#}
+<div{{ attributes.addClass('related-content') }}>
+  <h2 class="related-content__title">{{ 'Related Event/News'|t }}</h2>
+  <div class="related-content__list">
+    {% for card in content.cards %}
+      <div class="related-content__item">
+        {{ card }}
+      </div>
+    {% endfor %}
+  </div>
+</div>
